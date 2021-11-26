@@ -19,3 +19,7 @@ DATABASES = {
 CORS_ALLOWED_ORIGINS = [  # Add this to use react app running at localhost:3000
     "http://localhost:3000",
 ]
+
+MEDIA_ROOT = "media"
+
+MEDIA_URL = "media/"

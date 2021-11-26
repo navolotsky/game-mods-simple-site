@@ -3,75 +3,87 @@
 game mods simple site
 
 ## Предметная область
-Моды для компьютерных видеоигр: описание, изображения, ссылки на скачивание
+Моды для компьютерных видеоигр: описание, изображения, ссылки на скачивание. Возможность хранения разных версий мода.
 
 # Данные
-- users
+Таблички БД
+- core\_users - 
+  таблица, предоставляемая Django по умолчанию
     - id
+    - password
+    - last\_login
+    - is\_superuser
     - username
-    - vk_id
+    - first\_name
+    - last_name
+    - email
+    - is\_staff
+    - is\_active
+    - date\_joined
+- user\_profiles
+    - id
+    - user\_id
     - avatar
-    - self_description
-    - signed\_up\_at
-    - last\_visited\_at
-    - is_banned
-    - ? average\_mod\_rating
-    - ? average\_own\_mods_rating
+    - description
 - games
     - id
     - name
-- mod_categories
+    - description
+- mod\_categories
     - id
     - name
+    - description
 - mods\_n\_categories
-    - mod_id
-    - category_id
-- mod_versions
     - id
-    - mod_id
-    - main_image
-    - title
-    - short_description
-    - full_description
-    - additional_images
-    - download_links
-    - version_number
-    - version_comment
-    - added_at
-    - last\_updated\_at
-    - hidden
-- mod\_main\_images
-    - id
-    - mod\_version\_id
-    - image
-- mod\_additional\_images
-    - id
-    - mod\_version\_id
-    - image
-- mod\_download\_links
-    - mod\_version\_id
-    - link
-    - comment
-    - added_at
-    - last\_updated\_at
+    - mod\_id
+    - category\_id
 - mods
     - id
-    - game_id
-    - author_id
-    - default\_showed\_version_id
+    - game\_id
+    - author\_id
+    - showed\_version\_id
     - hidden
-    - ? views_number
-- mod\_user\_ratings
-    - user_id
-    - mod_id
-    - rating
-    - rated_at
-- mod\_user\_comments
-    - user_id
-    - mod_id
+- mod\_versions
+    - id
+    - mod\_id
+    - title
+    - short\_description
+    - full\_description
+    - main\_image\_id
+    - number
+    - comment
+    - added\_at
+    - last\_updated\_at
+    - hidden
+- mod\_images
+    - id
+    - file
+- mod\_versions\_n\_images
+  - id
+  - mod_version_id
+  - mod_image_id
+- mod\_download\_links
+    - id
     - mod\_version\_id
-    - content
-    - added_at
+    - url
+    - comment
+    - added\_at
+    - last\_updated\_at
+- mod\_user\_ratings
+    - id
+    - user\_id
+    - mod\_id
+    - mod\_version\_id
+    - rating
+    - rated\_at
+- mod\_user\_comments
+    - id
+    - user\_id
+    - mod\_id
+    - mod\_version\_id
+    - text
+    - added\_at
+    - last\_updated\_at
     - hidden
 ## Для каждого элемента данных - ограничения
 ## Общие ограничения целостности
