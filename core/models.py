@@ -97,6 +97,7 @@ class ModVersion(TimestampableChangeModel, HiddenableModel):
         db_table = "mod_versions"
         constraints = [models.UniqueConstraint(fields=("mod", "number"), name="unique_mod_version_number")]
         ordering = ["-added_at"]
+        get_latest_by = "added_at"
 
 
 class ModDownloadLink(TimestampableChangeModel):
