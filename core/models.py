@@ -70,7 +70,7 @@ class Mod(TimestampableChangeModel, HiddenableModel):
 
     class Meta:
         db_table = "mods"
-        ordering = ["-last_updated_at"]
+        ordering = ["-last_updated_at", "-pk"]
 
 
 class ModImage(models.Model):
@@ -96,8 +96,8 @@ class ModVersion(TimestampableChangeModel, HiddenableModel):
     class Meta:
         db_table = "mod_versions"
         constraints = [models.UniqueConstraint(fields=("mod", "number"), name="unique_mod_version_number")]
-        ordering = ["-added_at"]
-        get_latest_by = "added_at"
+        ordering = ["-added_at", "-pk"]
+        get_latest_by = ["added_at", "pk"]
 
 
 class ModDownloadLink(TimestampableChangeModel):
@@ -108,7 +108,7 @@ class ModDownloadLink(TimestampableChangeModel):
 
     class Meta:
         db_table = "mod_download_links"
-        ordering = ["added_at"]
+        ordering = ["added_at", "pk"]
 
 
 class ModUserRating(models.Model):
@@ -139,4 +139,4 @@ class ModUserComment(TimestampableChangeModel, HiddenableModel):
 
     class Meta:
         db_table = "mod_user_comments"
-        ordering = ["-added_at"]
+        ordering = ["-added_at", "-pk"]
