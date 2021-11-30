@@ -12,7 +12,12 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
 class ModViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Mod.objects.filter(hidden=False, showed_version__isnull=False, showed_version__hidden=False)
+    queryset = Mod.objects.prefetch_related(
+        "game", "author", "categories",
+        "showed_version", "showed_version__main_image"
+    ).filter(hidden=False,
+             showed_version__isnull=False,
+             showed_version__hidden=False)
     pagination_class = StandardResultsSetPagination
 
     def get_serializer_class(self):

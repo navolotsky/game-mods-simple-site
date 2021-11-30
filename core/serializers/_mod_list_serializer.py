@@ -9,8 +9,9 @@ __all__ = ["ModListSerializer"]
 class ModContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModVersion
-        fields = ["title", "short_description", "main_image", "version_number", "last_updated_at", "added_at"]
+        fields = ["title", "description", "main_image", "version_number", "last_updated_at", "added_at"]
 
+    description = serializers.CharField(source="short_description")
     main_image = ModImageSerializer()
     version_number = serializers.CharField(source="number")
 
