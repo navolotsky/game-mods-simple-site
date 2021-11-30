@@ -15,9 +15,10 @@ class ModDownloadLinkSerializer(serializers.ModelSerializer):
 class ModContentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ModVersion
-        fields = ["title", "full_description", "main_image", "version_number", "images", "download_links",
+        fields = ["title", "description", "main_image", "version_number", "images", "download_links",
                   "last_updated_at", "added_at"]
 
+    description = serializers.CharField(source="full_description")
     main_image = ModImageSerializer()
     version_number = serializers.CharField(source="number")
     images = ModImageSerializer(many=True)
