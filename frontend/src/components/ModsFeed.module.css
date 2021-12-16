@@ -1,4 +1,11 @@
 .ModsFeed {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+}
+
+.loading {
+    text-align: center;
 }
 
 .error {
@@ -10,5 +17,4 @@
 }
 
 .modsFeedTrigger {
-
 }

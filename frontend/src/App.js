@@ -6,7 +6,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <main>
+            <main className="Main">
                 <AppRouter/>
             </main>
         </BrowserRouter>)

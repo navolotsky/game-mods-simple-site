@@ -65,7 +65,7 @@ class Mod(TimestampableChangeModel, HiddenableModel):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, models.PROTECT, related_name="mods", related_query_name="mod")
     categories = models.ManyToManyField(ModCategory, db_table="mods_n_categories",
                                         related_name="mods", related_query_name="mods")
-    showed_version = models.OneToOneField("ModVersion", models.SET_NULL, blank=True, null=True,
+    showed_version = models.OneToOneField("ModVersion", models.PROTECT, blank=False, null=True,
                                           related_name="+")
 
     class Meta:
@@ -86,7 +86,7 @@ class ModVersion(TimestampableChangeModel, HiddenableModel):
     short_description = models.TextField()
     full_description = models.TextField()
     main_image = models.ForeignKey(ModImage, models.PROTECT, null=True,
-                                   related_name="main_for_mod_versions", related_query_name="main_for_mod_version")
+                                   related_name="mod_versions_having_as_main", related_query_name="mod_version_having_as_main")
     images = models.ManyToManyField(ModImage,
                                     db_table="mod_versions_n_images",
                                     related_name="mod_versions", related_query_name="mod_versions")

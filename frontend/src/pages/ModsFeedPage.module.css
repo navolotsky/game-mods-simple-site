@@ -1,0 +1,10 @@
+.Sidebar {
+    /*display: inline-flex;*/
+    /*width: 25vw;*/
+    padding: 15px;
+    border: 2px solid teal;
+    margin: 15px;
+    /*justify-self: flex-start;*/
+    flex-direction: column;
+    /*align-items: stretch;*/
+}

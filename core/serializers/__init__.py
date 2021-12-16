@@ -28,3 +28,11 @@ class ModCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ModCategory
         fields = ["id", "name", "description"]
+
+
+class GameMenuSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Game
+        fields = ["id", "name", "mods_number"]
+
+    mods_number = serializers.IntegerField()

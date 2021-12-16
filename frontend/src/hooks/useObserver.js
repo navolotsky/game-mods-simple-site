@@ -6,12 +6,12 @@ export const useObserver = (ref, canLoad, isLoading, callback) => {
         if (isLoading) return;
         if (observerRef.current) observerRef.current.disconnect();
 
-        var cb = function (entries) {
+        const cb = function (entries) {
             if (entries[0].isIntersecting && canLoad) {
                 callback()
             }
         };
         observerRef.current = new IntersectionObserver(cb)
-        observerRef.current.observe(ref.current)
+        if (ref.current) observerRef.current.observe(ref.current);
     }, [isLoading])
 }
