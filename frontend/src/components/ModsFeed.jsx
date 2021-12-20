@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import DataSource from "../API/DataSource";
 import {useFetching} from "../hooks/useFetching";
 import {useObserver} from "../hooks/useObserver";

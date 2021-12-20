@@ -1,4 +1,3 @@
-import React from 'react';
 import s from './DefaultButton.module.css';
 
 const DefaultButton = ({children, ...props}) => {

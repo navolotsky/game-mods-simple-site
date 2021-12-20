@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import GameMenu from "../components/GameMenu";
 import ModsFeed from "../components/ModsFeed";
 import s from "./ModsFeedPage.module.css"
