@@ -3,29 +3,29 @@ import s from "./GameMenu.module.css"
 import {useFetching} from "../hooks/useFetching";
 import DataSource from "../API/DataSource";
 
-const GameMenu = ({onOptionChange, categoryId = null, defaultOptionId = null}) => {
+const ModCategoryMenu = ({onOptionChange, gameId = null, defaultOptionId = null}) => {
     const [activeOptionId, setActiveOptionId] = useState(defaultOptionId)
-    const [sortedGames, setSortedGames] = useState([])
+    const [sortedCategories, setSortedCategories] = useState([])
 
     function changeActiveOption(e, id) {
         setActiveOptionId(id)
         onOptionChange(id)
     }
 
-    const [fetchGames, isLoading, fetchingError] = useFetching(async (categoryId) => {
-        const response = await DataSource.getGamesForSidebar(categoryId)
-        const games = response.data.sort((a, b) => {
+    const [fetchModCategories, isLoading, fetchingError] = useFetching(async (gameId) => {
+        const response = await DataSource.getModCategoriesForSidebar(gameId)
+        const mod_categories = response.data.sort((a, b) => {
             if (a.name < b.name) return -1;
             else if (a.name > b.name) return 1;
             else return 0;
         })
-        setSortedGames(games)
+        setSortedCategories(mod_categories)
     })
 
-    useState(() => fetchGames(categoryId))
+    useState(() => fetchModCategories(gameId))
     useEffect(() => {
-        fetchGames(categoryId)
-    }, [categoryId])
+        fetchModCategories(gameId)
+    }, [gameId])
 
     const defaultClasses = [s.game]
 
@@ -33,14 +33,15 @@ const GameMenu = ({onOptionChange, categoryId = null, defaultOptionId = null}) =
         return (activeOptionId === optionId ? [...defaultClasses, s.activeOption] : [...defaultClasses, s.notActiveOption]).join(" ")
     }
 
+    if (isLoading) return null;
     return (
-        <table className={s.games}>
+        <table>
             <tbody>
             <tr className={getClassName(defaultOptionId)} key={defaultOptionId}
                 onClick={e => changeActiveOption(e, defaultOptionId)}>
-                <td className={s.gameName}>Any Game</td>
+                <td className={s.gameName}>Any Category</td>
             </tr>
-            {sortedGames.map(({id, name, mods_number}) =>
+            {sortedCategories.map(({id, name, mods_number}) =>
                 <tr className={getClassName(id)} key={id}
                     onClick={(e) => changeActiveOption(e, id)}>
                     <td className={s.gameName}>{name}</td>
@@ -51,4 +52,4 @@ const GameMenu = ({onOptionChange, categoryId = null, defaultOptionId = null}) =
     );
 };
 
-export default GameMenu;
+export default ModCategoryMenu;

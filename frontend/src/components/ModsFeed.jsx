@@ -5,16 +5,15 @@ import {useObserver} from "../hooks/useObserver";
 import ModsFeedItem from "./ModsFeedItem";
 import s from "./ModsFeed.module.css"
 
-export default function ModsFeed({gameId = null, limit = 10}) {
-    // const [filter, setFilter] = useState({gameId: gameId})
+export default function ModsFeed({gameId = null, categoryId = null, limit = 10}) {
     const [renderedMods, setRenderedMods] = useState([])
     const [isThereNextPage, setIsThereNextPage] = useState(false)
     const [offset, setOffset] = useState(0)
     const feedTriggerRef = useRef()
 
-    const [fetchMods, isModsLoading, modError] = useFetching(async (gameId, limit, offset, clear = false) => {
+    const [fetchMods, isModsLoading, modError] = useFetching(async (filters, limit, offset, clear = false) => {
             const feedTrigger = <div key="mods-feed-trigger" className={s.modsFeedTrigger} ref={feedTriggerRef}/>
-            const response = await DataSource.getMods(gameId, limit, offset)
+            const response = await DataSource.getMods(filters, limit, offset)
 
             setIsThereNextPage(response.data.next !== null)
             setOffset(offset + response.data.results.length)
@@ -33,13 +32,16 @@ export default function ModsFeed({gameId = null, limit = 10}) {
         }
     )
 
-    useState(() => fetchMods(gameId, limit, offset)) // enforce initial fetching
+
+    useState(() => fetchMods({gameId, categoryId}, limit, offset)) // enforce initial fetching
 
     // load next portion of content
-    useObserver(feedTriggerRef, isThereNextPage, isModsLoading, () => fetchMods(gameId, limit, offset, false))
+    useObserver(feedTriggerRef, isThereNextPage, isModsLoading, () => fetchMods({gameId, categoryId}, limit, offset))
 
     // fully reload content because filter changed
-    useEffect(() => fetchMods(gameId, limit, 0, true), [gameId])
+    useEffect(() => {
+        fetchMods({gameId, categoryId}, limit, 0, true)
+    }, [gameId, categoryId])
 
     let content = renderedMods
     if (content.length === 0 && isModsLoading) content = <h2 className={s.loading}>...loading</h2>;
