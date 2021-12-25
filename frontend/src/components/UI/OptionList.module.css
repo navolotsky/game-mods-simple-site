@@ -1,0 +1,40 @@
+.activeOption {
+    border: 2px solid orange;
+}
+
+.notActiveOption {
+    border: 2px solid teal;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.option {
+    display: flex;
+    padding: 5px 15px;
+    margin-top: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    justify-content: space-between;
+}
+
+.option:hover {
+    background: lightgoldenrodyellow;
+}
+
+.option caption {
+    text-align: center;
+}
+
+.optionName {
+    display: flex;
+}
+
+.optionNumber {
+    display: flex;
+    margin-left: 25px;
+    color: lightseagreen;
+}

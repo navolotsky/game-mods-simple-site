@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "django_filters",
     "rest_framework",
     "corsheaders",
     "core"
@@ -137,6 +138,10 @@ CORE = {
         "default_limit": 50,
         "max_limit": 200
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
 }
 
 if DEBUG:

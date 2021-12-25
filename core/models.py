@@ -61,14 +61,14 @@ class ModCategory(models.Model):
 
 
 class Mod(TimestampableChangeModel, HiddenableModel):
-    game = models.ForeignKey(Game, models.PROTECT, related_name="mods", related_query_name="mod")
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.PROTECT, related_name="mods", related_query_name="mod")
-    categories = models.ManyToManyField(ModCategory, db_table="mods_n_categories",
-                                        related_name="mods", related_query_name="mods")
-    showed_version = models.OneToOneField("ModVersion", models.SET_NULL, blank=True, null=True,
+    game = models.ForeignKey(Game, models.PROTECT)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, models.PROTECT)
+    categories = models.ManyToManyField(ModCategory, db_table="mods_n_categories")
+    showed_version = models.OneToOneField("ModVersion", models.PROTECT, blank=False, null=True,
                                           related_name="+")
 
     class Meta:
+        default_related_name = "mods"
         db_table = "mods"
         ordering = ["-last_updated_at", "-pk"]
 
@@ -81,19 +81,18 @@ class ModImage(models.Model):
 
 
 class ModVersion(TimestampableChangeModel, HiddenableModel):
-    mod = models.ForeignKey(Mod, models.CASCADE, related_name="versions", related_query_name="version")
+    mod = models.ForeignKey(Mod, models.CASCADE, related_name="versions", related_query_name="versions")
     title = models.CharField(max_length=MAX_LENGTH, db_index=True)
     short_description = models.TextField()
     full_description = models.TextField()
     main_image = models.ForeignKey(ModImage, models.PROTECT, null=True,
-                                   related_name="main_for_mod_versions", related_query_name="main_for_mod_version")
-    images = models.ManyToManyField(ModImage,
-                                    db_table="mod_versions_n_images",
-                                    related_name="mod_versions", related_query_name="mod_versions")
+                                   related_name="mod_versions_having_as_main")
+    images = models.ManyToManyField(ModImage, db_table="mod_versions_n_images")
     number = models.CharField(max_length=MAX_LENGTH)
     comment = models.CharField(max_length=MAX_LENGTH)
 
     class Meta:
+        default_related_name = "mod_versions"
         db_table = "mod_versions"
         constraints = [models.UniqueConstraint(fields=("mod", "number"), name="unique_mod_version_number")]
         ordering = ["-added_at", "-pk"]
@@ -102,7 +101,7 @@ class ModVersion(TimestampableChangeModel, HiddenableModel):
 
 class ModDownloadLink(TimestampableChangeModel):
     mod_version = models.ForeignKey(ModVersion, models.CASCADE,
-                                    related_name="download_links", related_query_name="download_link")
+                                    related_name="download_links", related_query_name="download_links")
     url = models.URLField(max_length=MAX_LENGTH, unique=True)
     comment = models.CharField(max_length=MAX_LENGTH)
 
@@ -115,10 +114,10 @@ class ModUserRating(models.Model):
     PossibleRatingValues = models.IntegerChoices("PossibleRatingValues", " ".join([str(x + 1) for x in range(5)]))
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE,
-                             related_name="mod_ratings", related_query_name="mod_rating")
-    mod = models.ForeignKey(Mod, models.CASCADE, related_name="user_ratings", related_query_name="user_rating")
+                             related_name="mod_ratings", related_query_name="mod_ratings")
+    mod = models.ForeignKey(Mod, models.CASCADE, related_name="user_ratings", related_query_name="user_ratings")
     mod_version = models.ForeignKey(ModVersion, models.CASCADE,
-                                    related_name="user_ratings", related_query_name="user_rating")
+                                    related_name="user_ratings", related_query_name="user_ratings")
     rating = models.PositiveSmallIntegerField(choices=PossibleRatingValues.choices)
     rated_at = models.DateTimeField(auto_now=True)
 
@@ -131,10 +130,10 @@ class ModUserRating(models.Model):
 
 class ModUserComment(TimestampableChangeModel, HiddenableModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, models.CASCADE,
-                             related_name="mod_comments", related_query_name="mod_comment")
-    mod = models.ForeignKey(Mod, models.CASCADE, related_name="user_comments", related_query_name="user_comment")
+                             related_name="mod_comments", related_query_name="mod_comments")
+    mod = models.ForeignKey(Mod, models.CASCADE, related_name="user_comments", related_query_name="user_comments")
     mod_version = models.ForeignKey(ModVersion, models.CASCADE,
-                                    related_name="user_comments", related_query_name="user_comment")
+                                    related_name="user_comments", related_query_name="user_comments")
     text = models.TextField()
 
     class Meta:

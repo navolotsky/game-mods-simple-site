@@ -1,7 +1,6 @@
-import React from 'react';
-import s from "./ModsFeedItem.module.css"
 import {useNavigate} from 'react-router-dom';
 import DefaultButton from "./UI/buttons/DefaultButton";
+import s from "./ModsFeedItem.module.css"
 
 export default function ModsFeedItem({mod}) {
     const navigate = useNavigate()
@@ -24,7 +23,7 @@ export default function ModsFeedItem({mod}) {
                 </ul>
             </header>
             <div className={s.content}>
-                {mod.content.main_image && <img className={s.mainImage} src={mod.content.main_image.url}/>}
+                {mod.content.main_image && <img className={s.mainImage} src={mod.content.main_image.url} alt=""/>}
                 <div className={s.description}>
                     {mod.content.description}
                 </div>

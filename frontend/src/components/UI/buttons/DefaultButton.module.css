@@ -6,3 +6,7 @@
     border: 1px solid teal;
     cursor: pointer;
 }
+
+.DefaultButton:hover {
+    background: lightgoldenrodyellow;
+}
