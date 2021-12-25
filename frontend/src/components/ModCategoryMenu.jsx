@@ -1,54 +1,29 @@
-import {useEffect, useState} from 'react';
-import s from "./GameMenu.module.css"
-import {useFetching} from "../hooks/useFetching";
+import {useState} from 'react';
 import DataSource from "../API/DataSource";
+import OptionList from "./UI/OptionList"
+import useSortedOptionListData from "../hooks/useSortedOptionListData";
 
-const ModCategoryMenu = ({onOptionChange, gameId = null, defaultOptionId = null}) => {
-    const [activeOptionId, setActiveOptionId] = useState(defaultOptionId)
-    const [sortedCategories, setSortedCategories] = useState([])
+const ModCategoryMenu = ({onOptionChange, gameId = null}) => {
+    const defaultOptionConf = {id: null, name: "Any Category"};
+    const [activeOptionId, setActiveOptionId] = useState(defaultOptionConf.id);
 
-    function changeActiveOption(e, id) {
-        setActiveOptionId(id)
-        onOptionChange(id)
+    function changeActiveOption(id) {
+        setActiveOptionId(id);
+        onOptionChange(id);
     }
 
-    const [fetchModCategories, isLoading, fetchingError] = useFetching(async (gameId) => {
-        const response = await DataSource.getModCategoriesForSidebar(gameId)
-        const mod_categories = response.data.sort((a, b) => {
-            if (a.name < b.name) return -1;
-            else if (a.name > b.name) return 1;
-            else return 0;
-        })
-        setSortedCategories(mod_categories)
+    const [sortedCategories, isLoading, fetchingError] = useSortedOptionListData(
+        DataSource.getModCategoriesForSidebar, [gameId], "name");
+
+    const data = sortedCategories.map(({id, name, mods_number}) => {
+        return {id, name, number: mods_number};
     })
 
-    useState(() => fetchModCategories(gameId))
-    useEffect(() => {
-        fetchModCategories(gameId)
-    }, [gameId])
-
-    const defaultClasses = [s.game]
-
-    function getClassName(optionId) {
-        return (activeOptionId === optionId ? [...defaultClasses, s.activeOption] : [...defaultClasses, s.notActiveOption]).join(" ")
-    }
-
     if (isLoading) return null;
+    if (fetchingError) return <h2>Error occured: {fetchingError}</h2>;
     return (
-        <table>
-            <tbody>
-            <tr className={getClassName(defaultOptionId)} key={defaultOptionId}
-                onClick={e => changeActiveOption(e, defaultOptionId)}>
-                <td className={s.gameName}>Any Category</td>
-            </tr>
-            {sortedCategories.map(({id, name, mods_number}) =>
-                <tr className={getClassName(id)} key={id}
-                    onClick={(e) => changeActiveOption(e, id)}>
-                    <td className={s.gameName}>{name}</td>
-                    {mods_number && <td className={s.gameModsNumber}>{mods_number}</td>}
-                </tr>)}
-            </tbody>
-        </table>
+        <OptionList data={data} onOptionChange={changeActiveOption}
+                    activeOptionId={activeOptionId} defaultOptionConf={defaultOptionConf}/>
     );
 };
 

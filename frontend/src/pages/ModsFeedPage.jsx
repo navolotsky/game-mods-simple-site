@@ -5,16 +5,13 @@ import s from "./ModsFeedPage.module.css"
 import ModCategoryMenu from "../components/ModCategoryMenu";
 
 const ModsFeedPage = () => {
-    const defaultOptionId = null
-    const [chosenGameId, setChosenGameId] = useState(defaultOptionId)
-    const [chosenCategoryId, setChosenCategoryId] = useState(defaultOptionId)
+    const [chosenGameId, setChosenGameId] = useState()
+    const [chosenCategoryId, setChosenCategoryId] = useState()
     return (
         <>
             <nav className={s.Sidebar}>
-                <GameMenu onOptionChange={setChosenGameId} categoryId={chosenCategoryId}
-                          defaultOptionId={defaultOptionId}/>
-                <ModCategoryMenu onOptionChange={setChosenCategoryId} gameId={chosenGameId}
-                                 defaultOptionId={defaultOptionId}/>
+                <GameMenu onOptionChange={setChosenGameId} categoryId={chosenCategoryId}/>
+                <ModCategoryMenu onOptionChange={setChosenCategoryId} gameId={chosenGameId}/>
             </nav>
             <ModsFeed gameId={chosenGameId} categoryId={chosenCategoryId}/>
         </>
