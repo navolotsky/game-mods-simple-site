@@ -902,7 +902,7 @@
       <rect x="20" width="108" height="20" y="0" clip-path="url(#clipPath40)" stroke="none"/>
     </g>
     <g transform="matrix(4,0,0,4,1516.1194,1796)" fill="rgb(169,183,198)" text-rendering="optimizeSpeed" font-family="'Segoe UI'" shape-rendering="optimizeSpeed" stroke="rgb(169,183,198)" font-weight="bold">
-      <text x="21" xml:space="preserve" y="15" clip-path="url(#clipPath40)" stroke="none">showed_version_id</text>
+      <text x="21" xml:space="preserve" y="15" clip-path="url(#clipPath40)" stroke="none">default_version_id</text>
     </g>
     <g fill="rgb(60,63,65)" font-family="'Segoe UI'" transform="matrix(4,0,0,4,80,80) translate(576.0299,451)" stroke="rgb(60,63,65)">
       <rect x="0" width="37" height="20" y="0" clip-path="url(#clipPath27)" stroke="none"/>
@@ -2182,7 +2182,7 @@
       <text x="417.0298" y="297.8389" clip-path="url(#clipPath2)" fill="rgb(169,183,198)" font-family="sans-serif" stroke="none" xml:space="preserve">game_id:id</text>
       <path fill="none" d="M421.0298 518.0312 L421.0298 540 L419.5834 547.5 L417.7754 549.375 L415.2441 550 L415.2441 550 L410.9048 551.3696 L409.4583 555.4785 L409.4583 560.957" clip-path="url(#clipPath2)"/>
       <path d="M409.4583 571.957 L415.4583 559.957 L403.4583 559.957 Z" clip-path="url(#clipPath2)" stroke="none"/>
-      <text x="298.0298" y="537.0645" clip-path="url(#clipPath2)" fill="rgb(169,183,198)" font-family="sans-serif" stroke="none" xml:space="preserve">showed_version_id:id</text>
+      <text x="298.0298" y="537.0645" clip-path="url(#clipPath2)" fill="rgb(169,183,198)" font-family="sans-serif" stroke="none" xml:space="preserve">default_version_id:id</text>
       <path fill="none" d="M551.0298 328.959 L551.0298 318 L551.6548 313.625 L553.5298 310.5 L556.6548 308.625 L561.0298 308 L650.3632 308 L654.7382 307.3759 L657.8632 305.5038 L659.7382 302.3835 L660.3632 298.0151 L660.3632 288.0303" clip-path="url(#clipPath2)"/>
       <path d="M660.3632 277.0303 L654.3632 289.0303 L666.3632 289.0303 Z" clip-path="url(#clipPath2)" stroke="none"/>
       <text x="593.3632" y="296.0645" clip-path="url(#clipPath2)" fill="rgb(169,183,198)" font-family="sans-serif" stroke="none" xml:space="preserve">author_id:id</text>

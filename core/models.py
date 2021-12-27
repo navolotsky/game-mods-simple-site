@@ -64,8 +64,8 @@ class Mod(TimestampableChangeModel, HiddenableModel):
     game = models.ForeignKey(Game, models.PROTECT)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, models.PROTECT)
     categories = models.ManyToManyField(ModCategory, db_table="mods_n_categories")
-    showed_version = models.OneToOneField("ModVersion", models.PROTECT, blank=False, null=True,
-                                          related_name="+")
+    default_version = models.OneToOneField("ModVersion", models.PROTECT, blank=False, null=True,
+                                           related_name="+")
 
     class Meta:
         default_related_name = "mods"

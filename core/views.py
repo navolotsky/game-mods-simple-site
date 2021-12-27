@@ -1,8 +1,9 @@
+from django.db.models import F, FilteredRelation, Prefetch, Q
 from rest_framework import viewsets
 from rest_framework.decorators import action
 
 from .filters import ModFilter
-from .models import Game, Mod, ModCategory, User
+from .models import Game, Mod, ModCategory, ModVersion, User
 from .pagination import StandardResultsSetPagination
 from .serializers import GameMenuSerializer, GameSerializer, ModCategoryMenuSerializer, ModCategorySerializer, \
     ModDetailSerializer, \
@@ -18,13 +19,33 @@ class UserViewSet(viewsets.ModelViewSet):
 
 class ModViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = (Mod.objects
-                .select_related("game", "author", "showed_version__main_image", "showed_version")
+                .select_related("game", "author", "default_version")
                 .prefetch_related("categories")
                 .filter(hidden=False,
-                        showed_version__isnull=False,
-                        showed_version__hidden=False))
+                        default_version__isnull=False,
+                        default_version__hidden=False))
     pagination_class = StandardResultsSetPagination
     filterset_class = ModFilter
+
+    def get_queryset(self):
+        if self.action == "list":
+            return self.queryset.select_related("default_version__main_image")
+        elif self.action == "retrieve":
+            qs = self.queryset
+            requested_version_id = self.request.query_params.get("version_id")
+            # First check if a requested version exists on the mod
+            qs = qs.annotate(requested_version=FilteredRelation("versions", condition=Q(
+                versions__hidden=False,
+                versions=requested_version_id if requested_version_id else F("default_version")))
+                             ).filter(requested_version__isnull=False)
+            # Then select the requested version
+            qs = qs.prefetch_related(Prefetch("versions", queryset=ModVersion.objects.filter(
+                hidden=False,
+                id=requested_version_id if requested_version_id else F("mod__default_version")),
+                                              to_attr="requested_version_one_element_list"))
+            return qs.prefetch_related(Prefetch("versions", queryset=ModVersion.objects.filter(hidden=False)))
+        else:
+            raise RuntimeError(f"{self.action = } was unexpected")
 
     def get_serializer_class(self):
         if self.action == "list":
@@ -32,7 +53,7 @@ class ModViewSet(viewsets.ReadOnlyModelViewSet):
         elif self.action in ("retrieve", "create", "update", "partial_update"):
             return ModDetailSerializer
         else:
-            raise ValueError(f"{self.action = } was unexpected")
+            raise RuntimeError(f"{self.action = } was unexpected")
 
 
 class GameViewSet(viewsets.ReadOnlyModelViewSet):

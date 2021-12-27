@@ -36,10 +36,17 @@ class ModVersionSerializer(serializers.ModelSerializer):
 class ModDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Mod
-        fields = ["id", "game", "categories", "author", "content", "versions"]
+        fields = ["id", "game", "categories", "author", "content", "versions",
+                  "default_version_id", "requested_version_id"]
 
     game = GameSerializer()
     categories = ModCategorySerializer(many=True)
     author = AuthorModSerializer()
-    content = ModContentSerializer(source="showed_version")
+    content = ModContentSerializer(source="requested_version")
     versions = ModVersionSerializer(many=True)
+    default_version_id = serializers.IntegerField(source="default_version.id")
+    requested_version_id = serializers.IntegerField(source="requested_version.id")
+
+    def to_representation(self, instance):
+        instance.requested_version = instance.requested_version_one_element_list[0]
+        return super().to_representation(instance)

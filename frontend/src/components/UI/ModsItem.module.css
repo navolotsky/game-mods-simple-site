@@ -1,4 +1,4 @@
-.ModsFeedItem {
+.ModsItem {
     display: flex;
     padding: 15px;
     border: 2px solid teal;
@@ -62,6 +62,7 @@
 }
 
 .footer {
+    margin-top: 15px;
     display: flex;
     justify-content: space-between;
     align-items: baseline;
@@ -73,3 +74,55 @@
     margin: 5px;
 }
 
+.images {
+}
+
+.image {
+    max-width: 95%;
+    margin: 15px;
+    align-self: center;
+}
+
+.downloadLinksTable {
+    margin-top: 15px;
+}
+
+.downloadLinksTable td {
+    border: solid 1px teal;
+    text-align: center;
+}
+
+.downloadLinksTableCaption {
+}
+
+.downloadLinksTableHeader {
+}
+
+.downloadLinksTableRow {
+}
+
+.versionsTable {
+    margin-top: 15px;
+}
+
+.versionsTable td {
+    text-align: center;
+}
+
+.versionsTableCaption {
+}
+
+.versionsTableHeader {
+}
+
+.versionsTableRow td {
+    border: solid 1px teal;
+}
+
+.versionsTableRow_DefaultVersion td {
+    border: solid 2px #675BA7;
+}
+
+.versionsTableRow_RequestedVersion td {
+    border: solid 2px orange;
+}

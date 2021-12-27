@@ -24,4 +24,4 @@ class ModListSerializer(serializers.ModelSerializer):
     game = GameSerializer()
     categories = ModCategorySerializer(many=True)
     author = AuthorModSerializer()
-    content = ModContentSerializer(source="showed_version")
+    content = ModContentSerializer(source="default_version")

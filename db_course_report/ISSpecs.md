@@ -41,7 +41,7 @@ game mods simple site
     - id
     - game\_id
     - author\_id
-    - showed\_version\_id
+    - default\_version\_id
     - hidden
 - mod\_versions
     - id

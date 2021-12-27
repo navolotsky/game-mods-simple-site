@@ -7,7 +7,7 @@ from core.models import Game, ModCategory
 
 def _get_queryset_for_menu(filters: List[Q], model: Model, mods_number__gte: Optional[int] = None):
     return (model.objects
-            .filter(mods__hidden=False, mods__showed_version__hidden=False, *filters)
+            .filter(mods__hidden=False, mods__default_version__hidden=False, *filters)
             .annotate(mods_number=Count("mods"))
             .filter(mods_number__gte=1 if mods_number__gte is None else mods_number__gte)
             .values("id", "name", "mods_number")

@@ -271,9 +271,9 @@ def main(*, test_data_dir=DEFAULT_TEST_DATA_DIR, seed=DEFAULT_SEED, batch_size=D
             prev_mod_version_images = last_mod_version_images
 
         m.ModVersion.objects.bulk_update(mod_versions, ("main_image",), batch_size)
-        mod.showed_version = None if random_empty() else choice(mod_versions)
+        mod.default_version = None if random_empty() else choice(mod_versions)
 
-    m.Mod.objects.bulk_update(mods, ("showed_version",), batch_size)
+    m.Mod.objects.bulk_update(mods, ("default_version",), batch_size)
 
     if not autocommit:
         transaction.commit()
